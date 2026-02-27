@@ -1,0 +1,24 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Suppress CDP warnings completely -->
+    <logger name="org.openqa.selenium.devtools" level="OFF"/>
+    <logger name="org.openqa.selenium.chromium" level="OFF"/>
+    <logger name="org.openqa.selenium.remote.http.jdk" level="OFF"/>
+    <logger name="jdk.internal" level="OFF"/>
+    
+    <!-- Serenity logging - only show errors -->
+    <logger name="net.serenitybdd" level="ERROR"/>
+    <logger name="net.thucydides" level="ERROR"/>
+    
+    <!-- Cucumber logging -->
+    <logger name="io.cucumber" level="WARN"/>
+
+    <root level="ERROR">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

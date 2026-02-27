@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'net.serenity-bdd.aggregator' version '4.1.20'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+ext {
+    serenityVersion = '4.1.20'
+    cucumberVersion = '7.15.0'
+    junit5Version = '5.10.1'
+}
+
+dependencies {
+    testImplementation("net.serenity-bdd:serenity-core:${serenityVersion}")
+    testImplementation("net.serenity-bdd:serenity-cucumber:${serenityVersion}")
+    testImplementation("io.cucumber:cucumber-java:${cucumberVersion}")
+    testImplementation("io.cucumber:cucumber-junit:${cucumberVersion}")
+    testImplementation("org.assertj:assertj-core:3.24.2")
+    testImplementation("org.slf4j:slf4j-simple:2.0.9")
+    
+    testImplementation("org.junit.platform:junit-platform-launcher:1.10.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:${junit5Version}")
+    testImplementation("org.junit.vintage:junit-vintage-engine:${junit5Version}")
+}
+
+test {
+    useJUnitPlatform()
+    include '**/Test*.java', '**/*Test.java', '**/*Tests.java', '**/*TestCase.java', '**/When*.java'
+    exclude '**/acceptancetests/*.java'
+}
+
+task acceptanceTests(type: Test) {
+    useJUnitPlatform()
+    include '**/acceptancetests/*.java'
+}
+
+gradle.startParameter.continueOnFailure = true
+test.finalizedBy(aggregate)
